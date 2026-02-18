@@ -17,6 +17,7 @@ export default function ProductCard({ piece }: ProductCardProps) {
           {piece.category}
         </div>
       </div>
+      {/* Price and name stay visible above the fold before CTA interaction. */}
       <div className="flex items-end justify-between gap-3 px-2 pb-2 pt-4">
         <div>
           <h3 className="font-display text-2xl leading-tight text-ink">{piece.name}</h3>
@@ -27,6 +28,7 @@ export default function ProductCard({ piece }: ProductCardProps) {
       <button
         type="button"
         disabled={!piece.available}
+        // Disabled style is used to preserve layout for sold-out one-off pieces.
         className="mt-1 w-full rounded-2xl border border-ink px-4 py-3 text-sm uppercase tracking-[0.15em] transition disabled:cursor-not-allowed disabled:border-clay-100 disabled:bg-clay-50 disabled:text-clay-300 enabled:hover:bg-ink enabled:hover:text-white"
       >
         {piece.available ? "Add to cart" : "Sold out"}

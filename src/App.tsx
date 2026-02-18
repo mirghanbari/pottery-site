@@ -5,10 +5,12 @@ import { categories, featuredPieces } from "./data/pottery";
 function App() {
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-clay-50 text-ink">
+      {/* Ambient texture and color fields that shape the "artsy but usable" look. */}
       <div className="hero-noise pointer-events-none absolute inset-0 opacity-20" />
       <div className="pointer-events-none absolute -left-20 top-24 h-64 w-64 rounded-full bg-peach/40 blur-3xl" />
       <div className="pointer-events-none absolute right-0 top-0 h-[24rem] w-[24rem] animate-drift rounded-full bg-moss/20 blur-3xl" />
 
+      {/* Top-level site navigation and cart entry point. */}
       <header className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-6 md:px-10">
         <a href="#" className="font-display text-3xl tracking-tight text-clay-900">
         Savi + Tuli Pottery
@@ -27,6 +29,7 @@ function App() {
       </header>
 
       <main className="mx-auto w-full max-w-7xl px-6 pb-24 md:px-10">
+        {/* Hero: brand story + primary actions + featured visual. */}
         <section className="grid items-start gap-10 pb-14 pt-6 md:grid-cols-[1.15fr_0.85fr]">
           <div>
             <p className="inline-flex rounded-full border border-clay-300 bg-white/50 px-4 py-1 text-xs uppercase tracking-[0.2em] text-clay-700">
@@ -68,6 +71,7 @@ function App() {
           </div>
         </section>
 
+        {/* Collection cards route users to major shopping/story sections. */}
         <section id="collections" className="pt-8">
           <div className="mb-6 flex items-end justify-between gap-4">
             <h2 className="font-display text-4xl md:text-5xl">Browse collections</h2>
@@ -82,6 +86,7 @@ function App() {
           </div>
         </section>
 
+        {/* Featured items act as the main shoppable product strip. */}
         <section id="featured" className="pt-20">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <h2 className="font-display text-4xl md:text-5xl">Featured pieces</h2>
@@ -100,6 +105,7 @@ function App() {
           </div>
         </section>
 
+        {/* Studio story section adds craft context and trust signals. */}
         <section id="story" className="mt-20 grid gap-8 rounded-[2rem] border border-clay-100 bg-white/65 p-8 shadow-card backdrop-blur-sm md:grid-cols-[1.2fr_0.8fr]">
           <div>
             <p className="text-xs uppercase tracking-[0.2em] text-clay-700">About the studio</p>

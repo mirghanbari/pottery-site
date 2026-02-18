@@ -16,6 +16,7 @@ export type Product = {
   available: boolean;
 };
 
+// Homepage collection cards. `href` points to in-page anchors for fast navigation.
 export const categories: Category[] = [
   {
     id: "cups",
@@ -59,6 +60,7 @@ export const categories: Category[] = [
   }
 ];
 
+// Seed products for the featured grid; ready to swap with API/DB data later.
 export const featuredPieces: Product[] = [
   {
     id: "speckled-rim-mug",
