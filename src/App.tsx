@@ -1,8 +1,63 @@
+import { useEffect, useMemo, useState } from "react";
 import CategoryCard from "./components/CategoryCard";
 import ProductCard from "./components/ProductCard";
 import { categories, featuredPieces } from "./data/pottery";
 
+const CART_STORAGE_KEY = "pottery-site-cart";
+
+function getInitialCart() {
+  if (typeof window === "undefined") return {};
+  const savedCart = window.localStorage.getItem(CART_STORAGE_KEY);
+  if (!savedCart) return {};
+  try {
+    return JSON.parse(savedCart) as Record<string, number>;
+  } catch {
+    return {};
+  }
+}
+
 function App() {
+  const [cartItems, setCartItems] = useState<Record<string, number>>(getInitialCart);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const cartCount = useMemo(
+    () => Object.values(cartItems).reduce((total, quantity) => total + quantity, 0),
+    [cartItems]
+  );
+  const cartProducts = useMemo(
+    () => featuredPieces.filter((piece) => (cartItems[piece.id] ?? 0) > 0),
+    [cartItems]
+  );
+  const subtotal = useMemo(() => {
+    return cartProducts.reduce((total, piece) => {
+      const unitPrice = Number.parseFloat(piece.price.replace("$", ""));
+      return total + unitPrice * (cartItems[piece.id] ?? 0);
+    }, 0);
+  }, [cartItems, cartProducts]);
+
+  useEffect(() => {
+    window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  const handleAddToCart = (pieceId: string) => {
+    setCartItems((currentItems) => ({
+      ...currentItems,
+      [pieceId]: (currentItems[pieceId] ?? 0) + 1
+    }));
+    setIsCartOpen(true);
+  };
+
+  const updateQuantity = (pieceId: string, nextQuantity: number) => {
+    setCartItems((currentItems) => {
+      const updatedItems = { ...currentItems };
+      if (nextQuantity <= 0) {
+        delete updatedItems[pieceId];
+      } else {
+        updatedItems[pieceId] = nextQuantity;
+      }
+      return updatedItems;
+    });
+  };
+
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-clay-50 text-ink">
       {/* Ambient texture and color fields that shape the "artsy but usable" look. */}
@@ -22,9 +77,10 @@ function App() {
         </nav>
         <button
           type="button"
+          onClick={() => setIsCartOpen(true)}
           className="rounded-full border border-ink px-5 py-2 text-xs uppercase tracking-[0.18em] transition hover:bg-ink hover:text-white"
         >
-          Cart (0)
+          Cart ({cartCount})
         </button>
       </header>
 
@@ -100,7 +156,7 @@ function App() {
 
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {featuredPieces.map((piece) => (
-              <ProductCard key={piece.id} piece={piece} />
+              <ProductCard key={piece.id} piece={piece} onAddToCart={handleAddToCart} />
             ))}
           </div>
         </section>
@@ -126,6 +182,88 @@ function App() {
           />
         </section>
       </main>
+
+      <aside
+        className={`fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col border-l border-clay-100 bg-white p-6 shadow-card transition-transform duration-300 md:w-[28rem] ${
+          isCartOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+        aria-hidden={!isCartOpen}
+      >
+        <div className="flex items-center justify-between">
+          <h2 className="font-display text-3xl">Cart</h2>
+          <button
+            type="button"
+            onClick={() => setIsCartOpen(false)}
+            className="rounded-full border border-ink px-4 py-2 text-xs uppercase tracking-[0.15em]"
+          >
+            Close
+          </button>
+        </div>
+
+        {cartProducts.length === 0 ? (
+          <p className="mt-10 text-sm text-ink/60">Your cart is empty.</p>
+        ) : (
+          <>
+            <ul className="mt-6 flex-1 space-y-4 overflow-y-auto">
+              {cartProducts.map((piece) => (
+                <li key={piece.id} className="rounded-2xl border border-clay-100 p-3">
+                  <div className="flex gap-3">
+                    <img src={piece.image} alt={piece.name} className="h-20 w-20 rounded-xl object-cover" />
+                    <div className="flex-1">
+                      <p className="font-display text-2xl leading-none">{piece.name}</p>
+                      <p className="mt-2 text-sm text-ink/65">{piece.price}</p>
+                      <div className="mt-3 flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => updateQuantity(piece.id, (cartItems[piece.id] ?? 1) - 1)}
+                          className="h-8 w-8 rounded-full border border-ink text-sm"
+                        >
+                          -
+                        </button>
+                        <span className="w-8 text-center text-sm">{cartItems[piece.id] ?? 0}</span>
+                        <button
+                          type="button"
+                          onClick={() => updateQuantity(piece.id, (cartItems[piece.id] ?? 0) + 1)}
+                          className="h-8 w-8 rounded-full border border-ink text-sm"
+                        >
+                          +
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => updateQuantity(piece.id, 0)}
+                          className="ml-auto text-xs uppercase tracking-[0.14em] text-ink/60 hover:text-ink"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-5 border-t border-clay-100 pt-4">
+              <div className="flex items-center justify-between text-sm uppercase tracking-[0.12em] text-ink/70">
+                <span>Subtotal</span>
+                <span>${subtotal.toFixed(2)}</span>
+              </div>
+              <button
+                type="button"
+                className="mt-4 w-full rounded-2xl bg-ink px-4 py-3 text-sm uppercase tracking-[0.16em] text-white"
+              >
+                Checkout
+              </button>
+            </div>
+          </>
+        )}
+      </aside>
+      {isCartOpen && (
+        <button
+          type="button"
+          aria-label="Close cart"
+          onClick={() => setIsCartOpen(false)}
+          className="fixed inset-0 z-40 bg-ink/30"
+        />
+      )}
     </div>
   );
 }

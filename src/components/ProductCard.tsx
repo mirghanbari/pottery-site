@@ -2,9 +2,10 @@ import type { Product } from "../data/pottery";
 
 type ProductCardProps = {
   piece: Product;
+  onAddToCart: (pieceId: string) => void;
 };
 
-export default function ProductCard({ piece }: ProductCardProps) {
+export default function ProductCard({ piece, onAddToCart }: ProductCardProps) {
   return (
     <article className="group rounded-3xl border border-clay-100/80 bg-white/75 p-3 shadow-card backdrop-blur-sm transition hover:-translate-y-1">
       <div className="relative overflow-hidden rounded-2xl">
@@ -28,6 +29,7 @@ export default function ProductCard({ piece }: ProductCardProps) {
       <button
         type="button"
         disabled={!piece.available}
+        onClick={() => onAddToCart(piece.id)}
         // Disabled style is used to preserve layout for sold-out one-off pieces.
         className="mt-1 w-full rounded-2xl border border-ink px-4 py-3 text-sm uppercase tracking-[0.15em] transition disabled:cursor-not-allowed disabled:border-clay-100 disabled:bg-clay-50 disabled:text-clay-300 enabled:hover:bg-ink enabled:hover:text-white"
       >
