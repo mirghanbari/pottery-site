@@ -116,7 +116,7 @@ function App() {
           <div className="relative mx-auto w-full max-w-md">
             <div className="absolute -inset-8 animate-spinSlow rounded-full border border-dashed border-clay-300/60" />
             <img
-              src="/assets/pottery/art-03.jpg"
+              src={`${import.meta.env.BASE_URL}assets/pottery/art-03.jpg`}
               alt="Feature pottery"
               className="relative z-10 aspect-[4/5] w-full rounded-[2rem] object-cover shadow-card"
             />
@@ -176,7 +176,7 @@ function App() {
             </div>
           </div>
           <img
-            src="/assets/pottery/process-03.jpg"
+            src={`${import.meta.env.BASE_URL}assets/pottery/process-03.jpg`}
             alt="Pottery studio process"
             className="h-full w-full rounded-3xl object-cover"
           />

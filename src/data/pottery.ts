@@ -16,12 +16,14 @@ export type Product = {
   available: boolean;
 };
 
+const base = import.meta.env.BASE_URL;
+
 // Homepage collection cards. `href` points to in-page anchors for fast navigation.
 export const categories: Category[] = [
   {
     id: "cups",
     name: "Cups & Mugs",
-    image: "/assets/pottery/cup-01.jpg",
+    image: `${base}assets/pottery/cup-01.jpg`,
     href: "#featured",
     count: 8,
     tone: "Morning ritual"
@@ -29,7 +31,7 @@ export const categories: Category[] = [
   {
     id: "bowls",
     name: "Bowls",
-    image: "/assets/pottery/bowl-01.jpg",
+    image: `${base}assets/pottery/bowl-01.jpg`,
     href: "#featured",
     count: 4,
     tone: "Hand-thrown comfort"
@@ -37,7 +39,7 @@ export const categories: Category[] = [
   {
     id: "sets",
     name: "Sets",
-    image: "/assets/pottery/set-01.jpg",
+    image: `${base}assets/pottery/set-01.jpg`,
     href: "#featured",
     count: 3,
     tone: "Gathering pieces"
@@ -45,7 +47,7 @@ export const categories: Category[] = [
   {
     id: "art",
     name: "Art Objects",
-    image: "/assets/pottery/art-01.jpg",
+    image: `${base}assets/pottery/art-01.jpg`,
     href: "#featured",
     count: 5,
     tone: "Sculptural forms"
@@ -53,7 +55,7 @@ export const categories: Category[] = [
   {
     id: "studio",
     name: "Studio Process",
-    image: "/assets/pottery/process-01.jpg",
+    image: `${base}assets/pottery/process-01.jpg`,
     href: "#story",
     count: 6,
     tone: "From clay to kiln"
@@ -67,7 +69,7 @@ export const featuredPieces: Product[] = [
     name: "Speckled Rim Mug",
     category: "Cups & Mugs",
     price: "$48",
-    image: "/assets/pottery/cup-02.jpg",
+    image: `${base}assets/pottery/cup-02.jpg`,
     available: true
   },
   {
@@ -75,7 +77,7 @@ export const featuredPieces: Product[] = [
     name: "Ember Serving Bowl",
     category: "Bowls",
     price: "$84",
-    image: "/assets/pottery/bowl-01.jpg",
+    image: `${base}assets/pottery/bowl-01.jpg`,
     available: true
   },
   {
@@ -83,7 +85,7 @@ export const featuredPieces: Product[] = [
     name: "Sunset Pair Set",
     category: "Sets",
     price: "$102",
-    image: "/assets/pottery/set-02.jpg",
+    image: `${base}assets/pottery/set-02.jpg`,
     available: false
   },
   {
@@ -91,7 +93,7 @@ export const featuredPieces: Product[] = [
     name: "Ocean Loop Vessel",
     category: "Art Objects",
     price: "$136",
-    image: "/assets/pottery/art-02.jpg",
+    image: `${base}assets/pottery/art-02.jpg`,
     available: true
   },
   {
@@ -99,7 +101,7 @@ export const featuredPieces: Product[] = [
     name: "Coastal Cup",
     category: "Cups & Mugs",
     price: "$46",
-    image: "/assets/pottery/cup-03.jpg",
+    image: `${base}assets/pottery/cup-03.jpg`,
     available: true
   },
   {
@@ -107,7 +109,7 @@ export const featuredPieces: Product[] = [
     name: "Wheelborn Form",
     category: "Studio Process",
     price: "$95",
-    image: "/assets/pottery/process-02.jpg",
+    image: `${base}assets/pottery/process-02.jpg`,
     available: true
   }
 ];
